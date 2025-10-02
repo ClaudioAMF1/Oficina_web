@@ -1,0 +1,30 @@
+{
+  "name": "herois-vida-sistema-completo",
+  "version": "1.0.0",
+  "description": "Sistema gamificado completo para doação de órgãos com frontend e backend",
+  "main": "backend/server.js",
+  "scripts": {
+    "start": "cd backend && npm start",
+    "dev": "cd backend && npm run dev",
+    "install-backend": "cd backend && npm install",
+    "install-all": "npm run install-backend",
+    "frontend": "cd frontend && npx serve -p 8080 .",
+    "backend": "cd backend && npm start",
+    "test": "cd backend && npm test"
+  },
+  "keywords": [
+    "doacao",
+    "orgaos",
+    "gamificacao",
+    "nodejs",
+    "express",
+    "owasp",
+    "seguranca",
+    "crud"
+  ],
+  "author": "Equipe Heróis da Vida",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

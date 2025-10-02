@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎮 Heróis da Vida - Sistema Gamificado de Doação</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>❤️</text></svg>">
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div id="loading-screen" class="screen active">
+        <div class="loading-container">
+            <div class="logo-animation">
+                <div class="heart-pulse">❤️</div>
+                <h1>🎮 Heróis da Vida</h1>
+                <p>Sistema Gamificado de Doação de Órgãos</p>
+                <div class="loading-progress">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="loading-progress"></div>
+                    </div>
+                    <p class="loading-text">Carregando missões heroicas...</p>
+                </div>
+            </div>
+            <div class="security-badges">
+                <span class="badge">🛡️ OWASP A01 Protegido</span>
+                <span class="badge">🔐 OWASP A02 Criptografado</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Login Screen -->
+    <div id="login-screen" class="screen">
+        <div class="login-background">
+            <div class="particles"></div>
+            <div class="login-container">
+                <div class="login-card">
+                    <div class="login-header">
+                        <div class="logo-container">
+                            <div class="heart-logo">❤️</div>
+                            <h2>🎮 Entre na Missão</h2>
+                        </div>
+                        <p class="login-subtitle">Salve vidas como um verdadeiro herói!</p>
+                    </div>
+
+                    <form id="login-form" class="hero-form">
+                        <div class="form-group">
+                            <label class="form-label">
+                                <span class="label-text">👤 Email do Herói</span>
+                            </label>
+                            <div class="input-container">
+                                <input type="email" id="login-email" class="form-control" placeholder="seu@email.com" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">
+                                <span class="label-text">🗡️ Senha Secreta</span>
+                            </label>
+                            <div class="input-container">
+                                <input type="password" id="login-password" class="form-control" placeholder="Sua senha heroica" required>
+                                <button type="button" class="password-toggle" onclick="togglePassword('login-password')">👁️</button>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-hero btn-full-width">
+                            <span class="btn-icon">🚀</span>
+                            <span class="btn-text">Iniciar Missão</span>
+                        </button>
+                    </form>
+
+                    <div class="demo-section">
+                        <h3>🧪 Contas de Teste</h3>
+                        <div class="demo-buttons">
+                            <button class="demo-btn admin" onclick="fillCredentials('admin')">
+                                <div class="character-avatar admin-avatar">👑</div>
+                                <div class="character-info">
+                                    <strong>🔱 Super Admin</strong>
+                                    <small>admin@heroisdevidas.com</small>
+                                </div>
+                            </button>
+                            <button class="demo-btn user" onclick="fillCredentials('user')">
+                                <div class="character-avatar user-avatar">🦸</div>
+                                <div class="character-info">
+                                    <strong>⚔️ Herói</strong>
+                                    <small>usuario@teste.com</small>
+                                </div>
+                            </button>
+                        </div>
+                        <p class="demo-passwords">🔑 Senhas: admin123 / user123</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dashboard Screen -->
+    <div id="dashboard-screen" class="screen">
+        <!-- Header Gamificado -->
+        <header class="dashboard-header">
+            <div class="header-left">
+                <div class="logo-game">
+                    <span class="heart-small">❤️</span>
+                    <span class="logo-text">Heróis da Vida</span>
+                </div>
+                <div class="hero-info">
+                    <div class="hero-level">
+                        <span class="level-icon">⭐</span>
+                        <span class="level-text">Nível <span id="user-level">1</span></span>
+                    </div>
+                </div>
+            </div>
+            <div class="header-right">
+                <div class="user-profile">
+                    <div class="user-avatar" id="user-avatar">🦸</div>
+                    <div class="user-details">
+                        <div class="user-name" id="user-name">Herói</div>
+                        <div class="user-role" id="user-role">Iniciante</div>
+                    </div>
+                </div>
+                <button class="logout-btn" onclick="logout()">
+                    <span class="logout-icon">🚪</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- Navigation Gamificada -->
+        <nav class="game-nav">
+            <div class="nav-container">
+                <button class="nav-btn active" onclick="showTab('missions')" data-tab="missions">
+                    <div class="nav-icon">🎯</div>
+                    <div class="nav-text">Missões</div>
+                </button>
+                <button class="nav-btn" onclick="showTab('heroes')" data-tab="heroes">
+                    <div class="nav-icon">🦸</div>
+                    <div class="nav-text">Heróis</div>
+                </button>
+                <button class="nav-btn" onclick="showTab('campaigns')" data-tab="campaigns">
+                    <div class="nav-icon">📢</div>
+                    <div class="nav-text">Campanhas</div>
+                </button>
+                <button class="nav-btn" onclick="showTab('profile')" data-tab="profile">
+                    <div class="nav-icon">⚙️</div>
+                    <div class="nav-text">Perfil</div>
+                </button>
+            </div>
+        </nav>
+
+        <!-- Dashboard Content -->
+        <main class="dashboard-main">
+            <!-- Missions Tab -->
+            <div id="missions-tab" class="tab-content active">
+                <div class="tab-header">
+                    <div class="tab-title">
+                        <h2>🎯 Central de Missões</h2>
+                        <p class="tab-subtitle">Complete missões para ganhar XP e salvar vidas!</p>
+                    </div>
+                </div>
+
+                <div class="missions-grid">
+                    <div class="mission-card daily">
+                        <div class="mission-header">
+                            <div class="mission-icon">✅</div>
+                        </div>
+                        <div class="mission-content">
+                            <h4>Fazer Login</h4>
+                            <p>Entre no sistema hoje</p>
+                        </div>
+                        <div class="mission-reward">
+                            <span class="reward-xp">+50 XP</span>
+                        </div>
+                        <button class="mission-btn completed">Concluída!</button>
+                    </div>
+
+                    <div class="mission-card daily">
+                        <div class="mission-header">
+                            <div class="mission-icon">👥</div>
+                        </div>
+                        <div class="mission-content">
+                            <h4>Visualizar Heróis</h4>
+                            <p>Veja a lista de outros heróis</p>
+                        </div>
+                        <div class="mission-reward">
+                            <span class="reward-xp">+100 XP</span>
+                        </div>
+                        <button class="mission-btn active" onclick="showTab('heroes')">Começar</button>
+                    </div>
+
+                    <div class="mission-card daily">
+                        <div class="mission-header">
+                            <div class="mission-icon">⚙️</div>
+                        </div>
+                        <div class="mission-content">
+                            <h4>Atualizar Perfil</h4>
+                            <p>Personalize suas informações</p>
+                        </div>
+                        <div class="mission-reward">
+                            <span class="reward-xp">+200 XP</span>
+                        </div>
+                        <button class="mission-btn active" onclick="showTab('profile')">Começar</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Heroes Tab (CRUD Users) -->
+            <div id="heroes-tab" class="tab-content">
+                <div class="tab-header">
+                    <div class="tab-title">
+                        <h2>🦸 Hall dos Heróis</h2>
+                        <p class="tab-subtitle">Conheça os heróis salvadores de vidas</p>
+                    </div>
+                    <div class="tab-actions">
+                        <button class="btn btn-secondary" onclick="loadUsers()">
+                            <span class="btn-icon">🔄</span>
+                            Atualizar
+                        </button>
+                        <button class="btn btn-primary admin-only" onclick="showCreateHeroForm()">
+                            <span class="btn-icon">➕</span>
+                            Novo Herói
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Create Hero Form (Admin) -->
+                <div id="create-hero-form" class="form-card hidden admin-only">
+                    <div class="form-header">
+                        <h3>⚔️ Recrutar Novo Herói</h3>
+                    </div>
+                    <form id="new-hero-form" class="hero-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Nome do Herói</label>
+                                <input type="text" id="new-hero-name" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Email</label>
+                                <input type="email" id="new-hero-email" class="form-control" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Senha</label>
+                                <input type="password" id="new-hero-password" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Classe</label>
+                                <select id="new-hero-role" class="form-control">
+                                    <option value="user">🦸 Herói</option>
+                                    <option value="admin">👑 Super Admin</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-hero">
+                                <span class="btn-icon">⚔️</span>
+                                Recrutar Herói
+                            </button>
+                            <button type="button" class="btn btn-secondary" onclick="hideCreateHeroForm()">
+                                Cancelar
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Heroes Grid -->
+                <div class="heroes-grid" id="heroes-grid">
+                    <div class="hero-card loading">
+                        <div class="loading-spinner-small"></div>
+                        <p>Carregando heróis...</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Campaigns Tab -->
+            <div id="campaigns-tab" class="tab-content">
+                <div class="tab-header">
+                    <div class="tab-title">
+                        <h2>📢 Campanhas Heroicas</h2>
+                        <p class="tab-subtitle">Participe das campanhas de salvamento</p>
+                    </div>
+                    <div class="tab-actions">
+                        <button class="btn btn-secondary" onclick="loadCampaigns()">
+                            <span class="btn-icon">🔄</span>
+                            Atualizar
+                        </button>
+                        <button class="btn btn-primary admin-only" onclick="showCreateCampaignForm()">
+                            <span class="btn-icon">🚀</span>
+                            Nova Campanha
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Create Campaign Form (Admin) -->
+                <div id="create-campaign-form" class="form-card hidden admin-only">
+                    <div class="form-header">
+                        <h3>🚀 Lançar Nova Campanha</h3>
+                    </div>
+                    <form id="new-campaign-form" class="hero-form">
+                        <div class="form-group">
+                            <label class="form-label">Nome da Campanha</label>
+                            <input type="text" id="new-campaign-title" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Descrição</label>
+                            <textarea id="new-campaign-description" class="form-control" rows="4" required></textarea>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Órgão Alvo</label>
+                                <select id="new-campaign-organ" class="form-control" required>
+                                    <option value="">Escolha o órgão...</option>
+                                    <option value="heart">❤️ Coração</option>
+                                    <option value="liver">🟫 Fígado</option>
+                                    <option value="kidney">🫘 Rim</option>
+                                    <option value="lung">🫁 Pulmão</option>
+                                    <option value="cornea">👁️ Córnea</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Meta</label>
+                                <input type="number" id="new-campaign-goal" class="form-control" required min="1" max="100000">
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-hero">
+                                <span class="btn-icon">🚀</span>
+                                Lançar Campanha
+                            </button>
+                            <button type="button" class="btn btn-secondary" onclick="hideCreateCampaignForm()">
+                                Cancelar
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Campaigns Grid -->
+                <div class="campaigns-grid" id="campaigns-grid">
+                    <div class="campaign-card loading">
+                        <div class="loading-spinner-small"></div>
+                        <p>Carregando campanhas...</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Profile Tab -->
+            <div id="profile-tab" class="tab-content">
+                <div class="tab-header">
+                    <div class="tab-title">
+                        <h2>⚙️ Perfil do Herói</h2>
+                        <p class="tab-subtitle">Personalize seu personagem salvador</p>
+                    </div>
+                </div>
+
+                <div class="profile-container">
+                    <div class="profile-card">
+                        <div class="profile-header">
+                            <div class="profile-avatar-large" id="profile-avatar-large">🦸</div>
+                            <div class="profile-info">
+                                <h3 id="profile-hero-name">Nome do Herói</h3>
+                                <div class="profile-level">
+                                    <span class="level-badge">Nível <span id="profile-level">1</span></span>
+                                    <span class="class-badge" id="profile-class">Iniciante</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <form id="profile-form" class="hero-form">
+                            <div class="form-section">
+                                <h4 class="section-title">Informações do Herói</h4>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label class="form-label">Nome</label>
+                                        <input type="text" id="profile-name" class="form-control" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Email</label>
+                                        <input type="email" id="profile-email" class="form-control" required>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-section">
+                                <h4 class="section-title">Habilidades</h4>
+                                <div class="hero-abilities-profile">
+                                    <label class="ability-option-profile">
+                                        <input type="checkbox" id="profile-donor">
+                                        <span class="ability-card-profile">
+                                            <span class="ability-icon">❤️</span>
+                                            <div class="ability-info">
+                                                <span class="ability-name">Doador de Vida</span>
+                                                <span class="ability-desc">Permissão para salvar vidas</span>
+                                            </div>
+                                        </span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="form-actions">
+                                <button type="submit" class="btn btn-hero">
+                                    <span class="btn-icon">💾</span>
+                                    Salvar Alterações
+                                </button>
+                                <button type="button" class="btn btn-secondary" onclick="loadProfileData()">
+                                    <span class="btn-icon">🔄</span>
+                                    Resetar
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Edit Hero Modal -->
+    <div id="edit-hero-modal" class="modal">
+        <div class="modal-backdrop" onclick="hideEditHeroModal()"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>⚔️ Editar Herói</h3>
+                <button class="modal-close" onclick="hideEditHeroModal()">&times;</button>
+            </div>
+            <form id="edit-hero-form" class="hero-form">
+                <input type="hidden" id="edit-hero-id">
+                <div class="form-group">
+                    <label class="form-label">Nome</label>
+                    <input type="text" id="edit-hero-name" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Email</label>
+                    <input type="email" id="edit-hero-email" class="form-control" required>
+                </div>
+                <div class="form-group admin-only">
+                    <label class="form-label">Classe</label>
+                    <select id="edit-hero-role" class="form-control">
+                        <option value="user">🦸 Herói</option>
+                        <option value="admin">👑 Super Admin</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="ability-option-profile">
+                        <input type="checkbox" id="edit-hero-donor">
+                        <span class="ability-card-profile">
+                            <span class="ability-icon">❤️</span>
+                            <div class="ability-info">
+                                <span class="ability-name">Doador de Vida</span>
+                            </div>
+                        </span>
+                    </label>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-hero">
+                        <span class="btn-icon">💾</span>
+                        Salvar
+                    </button>
+                    <button type="button" class="btn btn-secondary" onclick="hideEditHeroModal()">
+                        Cancelar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <!-- Loading Overlay -->
+    <div id="loading-overlay" class="loading-overlay hidden">
+        <div class="loading-content">
+            <div class="loading-spinner"></div>
+            <p class="loading-message">Processando...</p>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="app.js"></script>
+</body>
+</html>

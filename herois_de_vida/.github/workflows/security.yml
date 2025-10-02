@@ -1,0 +1,74 @@
+name: 🛡️ Security Checks
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+  schedule:
+    - cron: '0 2 * * *'  # diário às 2:00 UTC
+
+jobs:
+  security-audit:
+    name: 🔍 Security Audit
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+
+      - name: 📦 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+          cache-dependency-path: backend/package-lock.json
+
+      - name: 🔧 Install dependencies
+        working-directory: backend
+        run: npm ci
+
+      - name: 🛡️ Run npm audit
+        working-directory: backend
+        run: npm audit --audit-level=moderate
+        continue-on-error: true
+
+      - name: 🔍 Run security linting
+        working-directory: backend
+        run: |
+          npx eslint-plugin-security
+          npx semgrep --config auto
+        continue-on-error: true
+
+      - name: 📊 Upload results
+        uses: github/codeql-action/upload-sarif@v3
+        if: always()
+
+  dependency-review:
+    name: 📦 Dependency Review
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+
+      - name: 🔍 Dependency Review
+        uses: actions/dependency-review-action@v4
+        with:
+          fail-on-severity: moderate
+
+  secrets-scan:
+    name: 🔐 Secrets Scanning
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+
+      - name: 🔍 Run TruffleHog
+        uses: trufflesecurity/trufflehog@main
+        with:
+          path: ./
+          base: main
+          head: HEAD

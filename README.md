@@ -1,8 +1,8 @@
-# 🎮 Heróis da Vida - Sistema Gamificado de Doação de Órgãos
+# 🎮 Heróis de Vidas - Sistema Gamificado de Doação de Órgãos
 
 ## 📋 Visão Geral
 
-O **Heróis da Vida** é um sistema gamificado inovador para conscientização e gestão de doação de órgãos. Desenvolvido com foco na segurança (OWASP A01 e A02), experiência do usuário e metodologias ágeis.
+O **Heróis de Vidas** é um sistema gamificado inovador para conscientização e gestão de doação de órgãos. Desenvolvido com foco na segurança (OWASP A01 e A02), experiência do usuário e metodologias ágeis.
 
 ## 🚀 Funcionalidades Principais
 
@@ -189,30 +189,12 @@ npm test
 - **Testes SUS**: `docs/TESTES-SUS/`
 - **API**: Documentação inline no código
 
-## 🤝 Contribuição
-
-1. Faça fork do projeto
-2. Crie uma branch para sua feature (`git checkout -b feature/AmazingFeature`)
-3. Commit suas mudanças (`git commit -m 'Add some AmazingFeature'`)
-4. Push para a branch (`git push origin feature/AmazingFeature`)
-5. Abra um Pull Request
-
-## 📄 Licença
-
-Este projeto está licenciado sob a MIT License - veja o arquivo [LICENSE](LICENSE) para detalhes.
-
 ## 👥 Equipe
 
-- **Frontend Developer**: Interface gamificada e responsiva
-- **Backend Developer**: API segura e escalável  
-- **UX/UI Designer**: Experiência do usuário otimizada
-- **Security Analyst**: Implementação das proteções OWASP
-
-## 📞 Suporte
-
-- **Email**: suporte@heroisdevidas.com
-- **Issues**: GitHub Issues
-- **Documentação**: Wiki do projeto
+- **Frontend Developer**: Claudio Meireles
+- **Backend Developer**: Lucas Fiche
+- **UX/UI Designer**: Pedro Araújo
+- **Security Analyst**: Felipe Dutra
 
 ---
 
